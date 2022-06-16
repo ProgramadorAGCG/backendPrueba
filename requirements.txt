@@ -1,0 +1,5 @@
+flask
+Flask-MySQL
+jinja2
+flask-cors
+pandas
