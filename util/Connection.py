@@ -5,6 +5,6 @@ class Connection():
 
     def __init__(self):
         aplication = Aplication()
-        app = aplication.app
+        self.app = aplication.app
         self.mysql = MySQL()
-        self.mysql.init_app(app)
+        self.mysql.init_app(self.app)

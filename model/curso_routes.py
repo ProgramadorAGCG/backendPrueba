@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, render_template, request, send_from_directory, make_response
 from util.Connection import Connection
 import pandas as pd
+import os
 
 #GET para traer informacion de la base de datos
 #POST para insertar informacion a la base de datos
@@ -110,12 +111,27 @@ def cursoCreateUpdate(id):
         mensaje = 'Error en la ejecucion'
     return jsonify({"mensaje" : mensaje})
 
+
+
 @curso.route("/curso/cargarexcel/", methods=['POST'])
 def obtenerExcel():
-    #ExcelRegistro.xlsx
     _archivo = request.files['archivoExcel']
-    _archivo.save('upload/ '+_archivo.filename)
+    nombre = _archivo.filename
+    sql = "INSERT INTO almacen(archivo) VALUES(%s)"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql, _archivo)
+    conn.commit()
+
+    _archivo.save(os.path.join(conexion.app.config["UPLOAD_FOLDER"], nombre))
     #upload/ExcelRegistro.xlsx
-    data = pd.read_excel("upload/"+_archivo.filename)
+    data = pd.read_excel('http://proyectoprueba.infinityfreeapp.com/upload/AgregarP.xlsx')
     arreglo = data.values.tolist()
     return jsonify({"cursos" : arreglo})
+
+@curso.route("/curso/foto/", methods = ['GET'])
+def cargarImagen():
+    image_data = open("upload/L.jpg", "rb").read()
+    response = make_response(image_data)
+    response.headers['Content-Type'] = 'image/png'
+    return response

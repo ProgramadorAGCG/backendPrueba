@@ -10,4 +10,5 @@ class Aplication:
         self.app.config['MYSQL_DATABASE_USER'] = Config.MYSQL_USER
         self.app.config['MYSQL_DATABASE_PASSWORD'] = Config.MYSQL_PASS
         self.app.config['MYSQL_DATABASE_DB'] = Config.MYSQL_DB
+        self.app.config['UPLOAD_FOLDER'] = './upload'
         self.cors = CORS(self.app)
